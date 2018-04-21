@@ -41,7 +41,8 @@ function handleEvent(event) {
 
   var user_id = event.source.userId;
   var display_name = getDisplayName(user_id);
-
+  console.log(display_name);
+  
   // create a echoing text message
   let msg = event.message.text.toLowerCase() === 'nama' ? `Hai, ${display_name}` : event.message.text;
 
