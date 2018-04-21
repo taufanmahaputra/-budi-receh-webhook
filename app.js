@@ -22,7 +22,7 @@ app.get('*', (req, res) => {
 app.post('/webhook', line.middleware(config), (req, res) => {
 
 	console.log(req.body.events);
-	
+
   Promise
     .all(req.body.events.map(handleEvent))
     .then((result) => res.json(result))
@@ -39,11 +39,32 @@ function handleEvent(event) {
     return Promise.resolve(null);
   }
 
+  var user_id = event.source.userId;
+  var display_name = getDisplayName(user_id);
+
   // create a echoing text message
-  const echo = { type: 'text', text: event.message.text };
+  let msg = event.message.text === 'nama' ? 'Hai, ${display_name}' : event.message.text;
+
+  const echo = { 
+  	type: 'text', 
+  	text: msg 
+  };
 
   // use reply API
   return client.replyMessage(event.replyToken, echo);
+}
+
+// get display name by its userId
+function getDisplayName(user_id) {
+	client.getProfile(user_id)
+	  .then((profile) => {
+	  	console.log(profile);
+	    return profile.displayName;
+	  })
+	  .catch((err) => {
+	    console.err(err);
+	    return 'Unknown';
+	  });
 }
 
 // listen on port
