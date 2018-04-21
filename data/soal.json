@@ -1,5 +1,4 @@
 {
-	//category {question, answer}
 	"random": [
 		{
 			"question": "Opor yang apa yang ga dateng dua kali?",
@@ -40,6 +39,6 @@
 		{
 			"question": "Selalu diam di pojok tapi selalu keliling dunia?",
 			"answer": "Perangko"
-		},
+		}
 	]
 }

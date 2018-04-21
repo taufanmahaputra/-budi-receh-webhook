@@ -2,6 +2,10 @@
 
 const line = require('@line/bot-sdk');
 const express = require('express');
+const soal = require('./data/soal.json');
+
+var mongoose = require('mongoose');
+var Game = require('./models/game');
 
 require('dotenv').load();
 
@@ -15,14 +19,19 @@ const config = {
 const app = express();
 const client = new line.Client(config);
 
+mongoose.connect('mongodb://taufanmahaputra:9wh4ck3r@ds147659.mlab.com:47659/budi-receh-bot');
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log('Database connected');
+});
+
 app.get('*', (req, res) => {
 	res.send('Budi Receh Webhook Service');
 });
 
 app.post('/webhook', line.middleware(config), (req, res) => {
-
-	console.log(req.body.events);
-
   Promise
     .all(req.body.events.map(handleEvent))
     .then((result) => res.json(result))
@@ -48,8 +57,35 @@ function handleEvent(event) {
 
 	client.getProfile(user_id)
 	  .then((profile) => {
-	    // create a echoing text message
-  		echo.text = event.message.text.toLowerCase() === 'nama' ? `Hai, ${profile.displayName}` : event.message.text;
+	    // create a response text message
+	    let input = event.message.text.toLowerCase();
+	    if (input === 'nama')
+  			echo.text = `Hai, ${profile.displayName}`;
+  		else if (input === '/mulai') {
+  			// Get question
+  			const qa_index = Math.floor(Math.random()*soal.random.length);
+				const question_answer = soal.random[qa_index];
+  			
+  			var newGame = new Game({
+  				groupId: event.source.groupId,
+  				question: question_answer.question,
+				  answer: question_answer.answer,
+				  idx: qa_index,
+				  onGoing: true
+  			});
+  			
+  			echo.text = 'Game telah dimulai. Pertanyaan: \n';
+  			echo.text += question_answer.question;
+  		}
+  		else if (input === '/pass') {
+
+  		}
+  		else if (input === '/bye') {
+
+  		}
+  		else {
+  			echo.text = event.message.text
+  		}
 
 		  // use reply API
 		  return client.replyMessage(event.replyToken, echo);
