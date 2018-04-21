@@ -43,13 +43,13 @@ function handleEvent(event) {
 
   const echo = { 
   	type: 'text', 
-  	text: msg 
+  	text: ''
   };
 
 	client.getProfile(user_id)
 	  .then((profile) => {
 	    // create a echoing text message
-  		let msg = event.message.text.toLowerCase() === 'nama' ? `Hai, ${profile.displayName}` : event.message.text;
+  		echo.text = event.message.text.toLowerCase() === 'nama' ? `Hai, ${profile.displayName}` : event.message.text;
 
 		  // use reply API
 		  return client.replyMessage(event.replyToken, echo);
