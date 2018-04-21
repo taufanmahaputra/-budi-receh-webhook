@@ -15,7 +15,7 @@ const config = {
 const app = express();
 const client = new line.Client(config);
 
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
 	res.send('Budi Receh Webhook Service');
 });
 
