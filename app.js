@@ -15,6 +15,10 @@ const config = {
 const app = express();
 const client = new line.Client(config);
 
+app.get('/', (req, res) => {
+	res.send('Budi Receh Webhook Service');
+});
+
 app.post('/webhook', line.middleware(config), (req, res) => {
   Promise
     .all(req.body.events.map(handleEvent))
