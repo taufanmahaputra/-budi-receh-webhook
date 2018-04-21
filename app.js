@@ -55,45 +55,47 @@ function handleEvent(event) {
   	text: ''
   };
 
-	client.getProfile(user_id)
-	  .then((profile) => {
-	    // create a response text message
-	    let input = event.message.text.toLowerCase();
-	    if (input === 'nama')
-  			echo.text = `Hai, ${profile.displayName}`;
-  		else if (input === '/mulai') {
-  			// Get question
-  			const qa_index = Math.floor(Math.random()*soal.random.length);
-				const question_answer = soal.random[qa_index];
-  			
-  			var newGame = new Game({
-  				groupId: event.source.groupId,
-  				question: question_answer.question,
-				  answer: question_answer.answer,
-				  idx: qa_index,
-				  onGoing: true
-  			});
-  			
-  			echo.text = 'Game telah dimulai. Pertanyaan: \n';
-  			echo.text += question_answer.question;
-  		}
-  		else if (input === '/pass') {
+  // create a response text message
+  let input = event.message.text.toLowerCase();
+  if (input === 'nama')
+		echo.text = `Hai, ${profile.displayName}`;
+	else if (input === '/mulai') {
+		// Get question
+		const qa_index = Math.floor(Math.random()*soal.random.length);
+		const question_answer = soal.random[qa_index];
+		
+		var newGame = new Game({
+			groupId: event.source.groupId,
+			question: question_answer.question,
+		  answer: question_answer.answer,
+		  idx: qa_index,
+		  onGoing: true
+		});
+		
+		echo.text = 'Game telah dimulai. Pertanyaan: \n';
+		echo.text += question_answer.question;
+	}
+	else if (input === '/pass') {
 
-  		}
-  		else if (input === '/bye') {
+	}
+	else if (input === '/bye') {
 
-  		}
-  		else {
-  			echo.text = event.message.text
-  		}
+	}
+	else {
+		echo.text = event.message.text
+	}
 
-		  // use reply API
-		  return client.replyMessage(event.replyToken, echo);
-	  })
-	  .catch((err) => {
-	    console.err(err);
-	    return 'Unknown';
-	  });
+  // use reply API
+  return client.replyMessage(event.replyToken, echo);
+  
+	// client.getProfile(user_id)
+	//   .then((profile) => {
+
+	//   })
+	//   .catch((err) => {
+	//     console.err(err);
+	//     return 'Unknown';
+	//   });
 }
 
 // listen on port
