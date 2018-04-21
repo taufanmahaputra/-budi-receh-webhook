@@ -1,0 +1,29 @@
+{
+  "name": "budi_receh_webhook",
+  "version": "0.0.1",
+  "description": "Webhook service for Budi Receh Line Bot",
+  "main": "app.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taufanmahaputra/-budi-receh-webhook.git"
+  },
+  "keywords": [
+    "bot",
+    "line",
+    "joke",
+    "chat"
+  ],
+  "author": "Taufan Mahaputra",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/taufanmahaputra/-budi-receh-webhook/issues"
+  },
+  "homepage": "https://github.com/taufanmahaputra/-budi-receh-webhook#readme",
+  "dependencies": {
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3"
+  }
+}
