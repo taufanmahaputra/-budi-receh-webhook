@@ -1,0 +1,45 @@
+{
+	//category {question, answer}
+	"random": [
+		{
+			"question": "Opor yang apa yang ga dateng dua kali?",
+			"answer": "Oportunity"
+		},
+		{
+			"question": "Tali apa yang ga jelas siapa pemiliknya?",
+			"answer": "Tali Sapa Tu"
+		},
+		{
+			"question": "Apa bedanya aksi sama demo?",
+			"answer": "Aksi rodanya 4, kalo demo rodanya 3"
+		},
+		{
+			"question": "Apa persamaan jomblo sama martabak?",
+			"answer": "Sama-sama dikacangin"
+		},
+		{
+			"question": "Vitamin apa yang bagus buat orang yang baru jadian?",
+			"answer": "Vitamin C"
+		},
+		{
+			"question": "Foto-foto apa yang menyakitkan?",
+			"answer": "Fotos cinta"
+		},
+		{
+			"question": "Ayam apa yang besar?",
+			"answer": "Ayam semesta"
+		},
+		{
+			"question": "Naiknya cepet, turunnya lambat banget",
+			"answer": "Ingus"
+		},
+		{
+			"question": "Uang kalau dilempar jadi apa?",
+			"answer": "Jadi rebutan"
+		},
+		{
+			"question": "Selalu diam di pojok tapi selalu keliling dunia?",
+			"answer": "Perangko"
+		},
+	]
+}
