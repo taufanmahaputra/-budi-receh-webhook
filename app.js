@@ -40,27 +40,19 @@ function handleEvent(event) {
   }
 
   var user_id = event.source.userId;
-  var display_name = getDisplayName(user_id);
-  console.log(display_name);
-
-  // create a echoing text message
-  let msg = event.message.text.toLowerCase() === 'nama' ? `Hai, ${display_name}` : event.message.text;
 
   const echo = { 
   	type: 'text', 
   	text: msg 
   };
 
-  // use reply API
-  return client.replyMessage(event.replyToken, echo);
-}
-
-// get display name by its userId
-async function getDisplayName(user_id) {
 	client.getProfile(user_id)
 	  .then((profile) => {
-	  	console.log(profile);
-	    return profile.displayName;
+	    // create a echoing text message
+  		let msg = event.message.text.toLowerCase() === 'nama' ? `Hai, ${profile.displayName}` : event.message.text;
+
+		  // use reply API
+		  return client.replyMessage(event.replyToken, echo);
 	  })
 	  .catch((err) => {
 	    console.err(err);
