@@ -107,7 +107,7 @@ function handleEvent(event) {
 
 						console.log(result);
 					});
-					
+
 					echo.text = 'Game dimulai. Pertanyaan: \n';
 					echo.text += question_answer.question;
 				}
@@ -182,7 +182,7 @@ function handleEvent(event) {
 					console.log(input);
 					console.log(game.answer);
 
-					if (input === game.answer) {
+					if (input === game.answer.toLowerCase()) {
 						echo.text = 'Kamu berhasil nebak! Ketik /mulai untuk memulai kembali';
 
 						game.onGoing = false;
