@@ -176,6 +176,7 @@ function handleEvent(event) {
 
 			if (!game) {
 				echo.text = 'Game belum dimulai. Silahkan memulai permainan, sekararang!';
+				replyMessage(event, echo);
 			} 
 			else {
 				if (game.onGoing) {
@@ -196,12 +197,10 @@ function handleEvent(event) {
 					else {
 						echo.text = 'Keep trying!';
 					}
-				}
-				else {
-					echo.text = 'Game belum dimulai. Silahkan memulai permainan, sekarang!';
+
+					replyMessage(event, echo);
 				}
 			}
-			replyMessage(event, echo);
 		});
 	}
 
