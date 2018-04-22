@@ -63,13 +63,13 @@ function handleEvent(event) {
 	var question_answer = soal.random[qa_index];
 
   if (input === '/mulai') {
-		Game.findOne({groupId: event.source.groupId}, (err, game) => {
+		Game.findOne({groupId: event.source.groupId || event.source.roomId}, (err, game) => {
 			if (err)
 				console.log(err);
 
 			if (!game) {
 				var newGame = new Game({
-					groupId: event.source.groupId,
+					groupId: event.source.groupId || event.source.roomId,
 					question: question_answer.question,
 				  answer: question_answer.answer,
 				  idx: qa_index,
@@ -116,44 +116,49 @@ function handleEvent(event) {
 		});
 	}
 	else if (input === '/pass') {
-		Game.findOne({groupId: event.source.groupId}, (err, game) => {
+		Game.findOne({groupId: event.source.groupId || event.source.roomId}, (err, game) => {
 			if (err)
 				console.log(err);
 
 			if (!game) {
-				echo.text = 'Game belum dimulai. Silahkan memulai permainan, sekararang!';
+				echo.text = 'Game belum dimulai. Silahkan memulai permainan, sekarang!';
 			} 
 			else {
-				while (qa_index == game.idx) {
-					qa_index = Math.floor(Math.random()*soal.random.length);
+				if (game.onGoing) {
+					while (qa_index == game.idx) {
+						qa_index = Math.floor(Math.random()*soal.random.length);
+					}
+
+					question_answer = soal.random[qa_index];
+
+					game.question = question_answer.question;
+					game.answer = question_answer.answer;
+					game.idx = qa_index;
+					
+					game.save((err, result) => {
+						if (err)
+							console.log(err);
+
+						console.log(result);
+					});
+
+					echo.text = 'Payah! Pertanyaan baru: \n';
+					echo.text += question_answer.question;
 				}
-
-				question_answer = soal.random[qa_index];
-
-				game.question = question_answer.question;
-				game.answer = question_answer.answer;
-				game.idx = qa_index;
-				
-				game.save((err, result) => {
-					if (err)
-						console.log(err);
-
-					console.log(result);
-				});
-
-				echo.text = 'Payah! Pertanyaan baru: \n';
-				echo.text += question_answer.question;
+				else {
+					echo.text = 'Game belum dimulai. Silahkan memulai permainan, sekarang!';
+				}
 			}
 			replyMessage(event, echo);
 		});
 	}
 	else if (input === '/stop') {
-		Game.findOne({groupId: event.source.groupId}, (err, game) => {
+		Game.findOne({groupId: event.source.groupId || event.source.roomId}, (err, game) => {
 			if (err)
 				console.log(err);
 
 			if (!game) {
-				echo.text = 'Game belum dimulai. Silahkan memulai permainan, sekararang!';
+				echo.text = 'Game belum dimulai. Silahkan memulai permainan, sekarang!';
 			} 
 			else {
 				game.onGoing = false;
@@ -170,15 +175,11 @@ function handleEvent(event) {
 		});
 	}
 	else {
-		Game.findOne({groupId: event.source.groupId}, (err, game) => {
+		Game.findOne({groupId: event.source.groupId || event.source.roomId}, (err, game) => {
 			if (err)
 				console.log(err);
 
-			if (!game) {
-				echo.text = 'Game belum dimulai. Silahkan memulai permainan, sekararang!';
-				replyMessage(event, echo);
-			} 
-			else {
+			if (game) {
 				if (game.onGoing) {
 					console.log(input);
 					console.log(game.answer);
