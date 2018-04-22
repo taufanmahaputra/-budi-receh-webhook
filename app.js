@@ -90,8 +90,6 @@ function handleEvent(event) {
 				if (game.onGoing)
 					echo.text = 'Game sudah dimulai.';
 				else {
-					game.onGoing = true;
-					
 					while (qa_index == game.idx) {
 						qa_index = Math.floor(Math.random()*soal.random.length);
 					}
@@ -101,7 +99,15 @@ function handleEvent(event) {
 					game.question = question_answer.question;
 					game.answer = question_answer.answer;
 					game.idx = qa_index;
+					game.onGoing = true;
 
+					game.save((err, result) => {
+						if (err)
+								console.log(err);
+
+						console.log(result);
+					});
+					
 					echo.text = 'Game dimulai. Pertanyaan: \n';
 					echo.text += question_answer.question;
 				}
@@ -173,6 +179,9 @@ function handleEvent(event) {
 			} 
 			else {
 				if (game.onGoing) {
+					console.log(input);
+					console.log(game.answer);
+
 					if (input === game.answer) {
 						echo.text = 'Kamu berhasil nebak! Ketik /mulai untuk memulai kembali';
 
@@ -184,9 +193,12 @@ function handleEvent(event) {
 							console.log(result);
 						});
 					}
+					else {
+						echo.text = 'Keep trying!';
+					}
 				}
 				else {
-					echo.text = 'Game belum dimulai. Silahkan memulai permainan, sekararang!';
+					echo.text = 'Game belum dimulai. Silahkan memulai permainan, sekarang!';
 				}
 			}
 			replyMessage(event, echo);
