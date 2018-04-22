@@ -52,7 +52,7 @@ function handleEvent(event) {
 
   const echo = { 
   	type: 'text', 
-  	text: ''
+  	text: 'error'
   };
 
   // create a response text message
@@ -62,9 +62,7 @@ function handleEvent(event) {
 	var qa_index = Math.floor(Math.random()*soal.random.length);
 	var question_answer = soal.random[qa_index];
 
-  if (input === 'nama')
-		echo.text = `Hai, ${profile.displayName}`;
-	else if (input === '/mulai') {
+  if (input === '/mulai') {
 		Game.findOne({groupId: event.source.groupId}, (err, game) => {
 			if (err)
 				console.log(err);
@@ -108,6 +106,7 @@ function handleEvent(event) {
 					echo.text += question_answer.question;
 				}
 			}
+			replyMessage(event, echo);
 		});
 	}
 	else if (input === '/pass') {
@@ -139,6 +138,7 @@ function handleEvent(event) {
 				echo.text = 'Payah! Pertanyaan baru: \n';
 				echo.text += question_answer.question;
 			}
+			replyMessage(event, echo);
 		});
 	}
 	else if (input === '/stop') {
@@ -160,6 +160,7 @@ function handleEvent(event) {
 
 				echo.text = 'Sampai jumpa lagi!';
 			}
+			replyMessage(event, echo);
 		});
 	}
 	else {
@@ -188,12 +189,14 @@ function handleEvent(event) {
 					echo.text = 'Game belum dimulai. Silahkan memulai permainan, sekararang!';
 				}
 			}
+			replyMessage(event, echo);
 		});
 	}
 
-	console.log(echo);
-  // use reply API
+function replyMessage(event, echo) {
+	// use reply API
   return client.replyMessage(event.replyToken, echo);
+}
 
 	// client.getProfile(user_id)
 	//   .then((profile) => {
