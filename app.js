@@ -72,6 +72,13 @@ function handleEvent(event) {
 		  onGoing: true
 		});
 		
+		newGame.save((err, result) => {
+			if (err)
+				console.log(err);
+
+			console.log(result);
+		});
+
 		echo.text = 'Game telah dimulai. Pertanyaan: \n';
 		echo.text += question_answer.question;
 	}
@@ -87,7 +94,7 @@ function handleEvent(event) {
 
   // use reply API
   return client.replyMessage(event.replyToken, echo);
-  
+
 	// client.getProfile(user_id)
 	//   .then((profile) => {
 
