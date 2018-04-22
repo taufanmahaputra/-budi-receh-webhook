@@ -191,6 +191,7 @@ function handleEvent(event) {
 		});
 	}
 
+	console.log(echo);
   // use reply API
   return client.replyMessage(event.replyToken, echo);
 
