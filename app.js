@@ -194,12 +194,9 @@ function handleEvent(event) {
 
 							console.log(result);
 						});
-					}
-					else {
-						echo.text = 'Keep trying!';
-					}
 
-					replyMessage(event, echo);
+						replyMessage(event, echo);
+					}
 				}
 			}
 		});
