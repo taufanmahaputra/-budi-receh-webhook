@@ -182,7 +182,7 @@ function handleEvent(event) {
 			replyMessage(event, echo);
 		  
 		  return event;
-		}).then(function(value) {
+		}).then(function(event) {
 		  client.leaveGroup(event.source.groupId)
 			  .then(() => {
 			  	//set on going false
