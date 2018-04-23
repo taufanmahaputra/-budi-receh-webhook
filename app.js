@@ -175,31 +175,38 @@ function handleEvent(event) {
 		});
 	}
 	else if (input === '/keluar') {
-  	echo.text = 'Terima kasih udah ajak Budi main! Maaf Budi ngeselin ya hehe. Kapan-kapan ajak Budi main lagi yaa';
-		replyMessage(event, echo);
+	  var promise1 = Promise.resolve(event);
 
-		client.leaveGroup(event.source.groupId)
-		  .then(() => {
-		  	//set on going false
-		  	Game.findOne({groupId: event.source.groupId || event.source.roomId}, (err, game) => {
-					if (err)
-						console.log(err);
+		promise1.then(function(event) {
+		  echo.text = 'Terima kasih udah ajak Budi main! Maaf Budi ngeselin ya hehe. Kapan-kapan ajak Budi main lagi yaa';
+			replyMessage(event, echo);
+		  
+		  return event;
+		}).then(function(value) {
+		  client.leaveGroup(event.source.groupId)
+			  .then(() => {
+			  	//set on going false
+			  	Game.findOne({groupId: event.source.groupId || event.source.roomId}, (err, game) => {
+						if (err)
+							console.log(err);
 
-					if (game) {
-						game.onGoing = false;
-						game.save((err, result) => {
-							if (err)
-								console.log(err);
+						if (game) {
+							game.onGoing = false;
+							game.save((err, result) => {
+								if (err)
+									console.log(err);
 
-							console.log(result);
-						});
-					}
-				});
-		  })
-		  .catch((err) => {
-		    // error handling
-		    console.log(err);
-		  });
+								console.log(result);
+							});
+						}
+					});
+			  })
+			  .catch((err) => {
+			    // error handling
+			    console.log(err);
+			  });
+		});
+
 	}
 	else {
 		Game.findOne({groupId: event.source.groupId || event.source.roomId}, (err, game) => {
