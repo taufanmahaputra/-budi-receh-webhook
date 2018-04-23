@@ -175,10 +175,26 @@ function handleEvent(event) {
 		});
 	}
 	else if (input === '/keluar') {
+  	echo.text = 'Terima kasih udah ajak Budi main! Maaf Budi ngeselin ya hehe. Kapan-kapan ajak Budi main lagi yaa';
+		replyMessage(event, echo);
+
 		client.leaveGroup(event.source.groupId)
 		  .then(() => {
-		    echo.text = 'Terima kasih udah ajak Budi main! Maaf Budi ngeselin ya hehe. Kapan-kapan ajak Budi main lagi yaa';
-				replyMessage(event, echo);
+		  	//set on going false
+		  	Game.findOne({groupId: event.source.groupId || event.source.roomId}, (err, game) => {
+					if (err)
+						console.log(err);
+
+					if (game) {
+						game.onGoing = false;
+						game.save((err, result) => {
+							if (err)
+								console.log(err);
+
+							console.log(result);
+						});
+					}
+				});
 		  })
 		  .catch((err) => {
 		    // error handling
