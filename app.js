@@ -174,6 +174,17 @@ function handleEvent(event) {
 			replyMessage(event, echo);
 		});
 	}
+	else if (input === '/keluar') {
+		client.leaveGroup(event.source.groupId)
+		  .then(() => {
+		    echo.text = 'Terima kasih udah ajak Budi main! Maaf Budi ngeselin ya hehe. Kapan-kapan ajak Budi main lagi yaa';
+				replyMessage(event, echo);
+		  })
+		  .catch((err) => {
+		    // error handling
+		    console.log(err);
+		  });
+	}
 	else {
 		Game.findOne({groupId: event.source.groupId || event.source.roomId}, (err, game) => {
 			if (err)
