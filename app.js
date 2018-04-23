@@ -48,15 +48,9 @@ function handleEvent(event) {
   	text: 'error'
   };
 
-  var user_id = event.source.userId;
-  // create a response text message
-  let input = event.message.text.toLowerCase();
-
-	// Get question
-	var qa_index = Math.floor(Math.random()*soal.random.length);
-	var question_answer = soal.random[qa_index];
-
+  
 	if (event.type ===  'join') {
+		console.log(event);
   	echo.text = 'Terima kasih telah menambahkan Budi sebagai teman receh kamu! (moon grin)' +
 								'\nGame Budi Receh merupakan game tebak-tebak sederhana untuk melengkapi hari kamu haha.' +
 								'\nBudi masih dalam tahap pengembangan, jadi Budi hanya dapat menerima command sederhana nih.' + 
@@ -67,13 +61,21 @@ function handleEvent(event) {
 								'\n Soon Budi akan lebih banyak fiturnya. Sebarkan ke teman-teman kalian, ya!' +
 								'\n\n Jika ada feedback, silahkan add @taufanmahaputra' +
 								'Happy receh! (halloween)';
-		return replyMessage(event, echo);
+		return Promise.resolve(replyMessage(event, echo));
   }
 	else if (event.type !== 'message' || event.message.type !== 'text') {
     // ignore non-text-message event
     return Promise.resolve(null);
   }
   else {
+  	var user_id = event.source.userId;
+	  // create a response text message
+	  let input = event.message.text.toLowerCase();
+
+		// Get question
+		var qa_index = Math.floor(Math.random()*soal.random.length);
+		var question_answer = soal.random[qa_index];
+
   	if (input === '/mulai') {
 			Game.findOne({groupId: event.source.groupId || event.source.roomId}, (err, game) => {
 				if (err)
@@ -192,11 +194,12 @@ function handleEvent(event) {
 			promise1.then(function(event) {
 			  echo.text = 'Terima kasih udah ajak Budi main! Maaf Budi ngeselin ya hehe. Kapan-kapan ajak Budi main lagi yaa';
 				replyMessage(event, echo);
-			  
+			  console.log('reply msg /keluar');
 			  return event;
 			}).then(function(event) {
 			  client.leaveGroup(event.source.groupId)
 				  .then(() => {
+				  	console.log('leaveGroup');
 				  	//set on going false
 				  	Game.findOne({groupId: event.source.groupId || event.source.roomId}, (err, game) => {
 							if (err)
