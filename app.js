@@ -50,7 +50,6 @@ function handleEvent(event) {
 
   
 	if (event.type ===  'join') {
-		console.log(event);
   	echo.text = 'Terima kasih telah menambahkan Budi sebagai teman receh kamu! (moon grin)' +
 								'\nGame Budi Receh merupakan game tebak-tebak sederhana untuk melengkapi hari kamu haha.' +
 								'\nBudi masih dalam tahap pengembangan, jadi Budi hanya dapat menerima command sederhana nih.' + 
@@ -193,7 +192,8 @@ function handleEvent(event) {
 
 			promise1.then(function(event) {
 			  echo.text = 'Terima kasih udah ajak Budi main! Maaf Budi ngeselin ya hehe. Kapan-kapan ajak Budi main lagi yaa';
-				replyMessage(event, echo);
+				client.replyMessage(event.replyToken, echo);
+
 			  console.log('reply msg /keluar');
 			  return event;
 			}).then(function(event) {
@@ -255,6 +255,7 @@ function handleEvent(event) {
 }
 
 function replyMessage(event, echo) {
+	console.log(echo.text);
 	// use reply API
   return client.replyMessage(event.replyToken, echo);
 }
